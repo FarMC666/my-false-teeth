@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>愿天下所有假牙都不掉进下水道</title>
+<!-- Fredoka + Nunito: playful friendly fonts via ui-ux-pro-max -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ── Base ─────────────────────────────────── */
+  body {
+    width: 100vw;
+    height: 100dvh;                     /* dynamic viewport for mobile */
+    overflow: hidden;
+    overscroll-behavior: contain;       /* prevent accidental pull-to-refresh */
+    font-family: "Nunito", "PingFang SC", "Microsoft YaHei", sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+    background: url("1.jpg") center/cover no-repeat fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* simple dark overlay for text readability */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  /* ── Container ────────────────────────────── */
+  .container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 24px;
+  }
+
+  /* ── Title — iridescent gradient + glow ───── */
+  .title {
+    font-family: "Fredoka", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: clamp(22px, 5vw, 42px);
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+    background: linear-gradient(
+      135deg,
+      #fff 0%,
+      #e0e7ff 20%,
+      #fbcfe8 40%,
+      #fff 60%,
+      #c7d2fe 80%,
+      #fff 100%
+    );
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 18px rgba(199, 210, 254, 0.6))
+            drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  /* ── Pressure Bar ─────────────────────────── */
+  .pressure-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pressure-label {
+    font-family: "Fredoka", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #e0e7ff;
+    text-shadow: 0 0 12px rgba(129, 140, 248, 0.5),
+                 0 1px 3px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.06em;
+  }
+
+  .pressure-label strong {
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: #fff;
+    margin-left: 2px;
+  }
+
+  /* chrome/metallic outer shell */
+  .pressure-bar-outer {
+    width: min(420px, 82vw);
+    height: 42px;
+    background: linear-gradient(180deg,
+      rgba(255,255,255,0.18) 0%,
+      rgba(255,255,255,0.06) 50%,
+      rgba(255,255,255,0.14) 100%
+    );
+    border-radius: 21px;
+    overflow: hidden;
+    box-shadow:
+      0 0 20px rgba(129, 140, 248, 0.25),
+      0 4px 20px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    position: relative;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  /* neon gradient fill — Y2K pink → coral → red */
+  .pressure-bar-inner {
+    height: 100%;
+    border-radius: 21px;
+    background: linear-gradient(90deg,
+      #ec4899,   /* pink-500 */
+      #f97316,   /* orange-500 */
+      #ef4444    /* red-500 */
+    );
+    box-shadow:
+      inset 0 2px 4px rgba(255, 255, 255, 0.35),
+      0 0 18px rgba(236, 72, 153, 0.5);
+    transition: width 0.2s ease-out;
+    width: 0%;
+    position: relative;
+  }
+
+  /* chrome shine streak on the fill */
+  .pressure-bar-inner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 21px;
+    background: linear-gradient(180deg,
+      rgba(255,255,255,0.25) 0%,
+      transparent 50%,
+      rgba(0,0,0,0.1) 100%
+    );
+  }
+
+  /* ── Hint Text ────────────────────────────── */
+  .hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.65);
+    font-family: "Nunito", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  .hint svg {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    animation: tap-bounce 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes tap-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-5px); }
+  }
+
+  /* ── Float "+加压" ─────────────────────────── */
+  .float-text {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10;
+    font-family: "Fredoka", "PingFang SC", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+    animation: float-up 0.85s ease-out forwards;
+  }
+
+  @keyframes float-up {
+    0%   { opacity: 1; transform: translateY(0) scale(0.8); }
+    30%  { opacity: 1; transform: translateY(-12px) scale(1.15); }
+    100% { opacity: 0; transform: translateY(-64px) scale(0.9); }
+  }
+
+  /* ── Modal Overlay ────────────────────────── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(15, 15, 30, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fade-in 0.2s ease-out;
+  }
+
+  .modal-overlay.hidden {
+    display: none;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ── Modal Dialog ──────────────────────────── */
+  .modal-dialog {
+    background: #fff;
+    border-radius: 20px;
+    padding: 36px 32px 32px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    max-width: 340px;
+    width: 86vw;
+    animation: pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes pop-in {
+    from { transform: scale(0.6); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  /* lightning icon — inline SVG */
+  .modal-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+
+  .modal-icon svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .modal-dialog .message {
+    font-family: "Fredoka", "PingFang SC", sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: #374151;   /* gray-700 */
+    margin-bottom: 26px;
+    line-height: 1.6;
+    letter-spacing: 0.04em;
+  }
+
+  /* modal close button */
+  .modal-dialog button {
+    min-width: 130px;
+    min-height: 46px;                  /* ≥44px touch target */
+    padding: 11px 40px;
+    font-family: "Fredoka", "Nunito", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    color: #fff;
+    background: #6b7280;              /* gray-500 */
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .modal-dialog button:hover {
+    background: #4b5563;              /* gray-600 */
+  }
+
+  .modal-dialog button:active {
+    transform: scale(0.97);
+  }
+
+  .modal-dialog button:focus-visible {
+    outline: 3px solid #6b7280;
+    outline-offset: 3px;
+  }
+
+  /* ── Accessibility: reduced motion ────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .float-text,
+    .modal-dialog,
+    .modal-overlay,
+    .title,
+    .hint svg {
+      animation: none !important;
+    }
+    .float-text {
+      opacity: 0;
+    }
+    .pressure-bar-inner {
+      transition: none;
+    }
+    .modal-icon svg {
+      animation: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="title">愿天下所有假牙都不掉进下水道</h1>
+
+    <div class="pressure-bar-wrapper">
+      <span class="pressure-label">压力值<strong id="pressure-num">0</strong></span>
+      <div class="pressure-bar-outer">
+        <div class="pressure-bar-inner" id="pressure-bar"></div>
+      </div>
+    </div>
+
+    <p class="hint">
+      <!-- tap finger icon (SVG, not emoji) -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14"/>
+        <path d="M18 13l-6-6"/>
+        <path d="M6 13l6-6"/>
+        <path d="M8 18c0-2.2 1.8-4 4-4"/>
+      </svg>
+      点击屏幕加压
+    </p>
+  </div>
+
+  <!-- Modal (hidden by default) -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal-dialog">
+      <div class="modal-icon">
+        <!-- lightning bolt SVG (not emoji) -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+      </div>
+      <p class="message">你碰到人家雷点了你知道吗</p>
+      <button id="modal-close-btn">知道了</button>
+    </div>
+  </div>
+
+<script>
+(function () {
+  let pressure = 0;
+  let lastTriggered = 0;
+  const MAX_PRESSURE = 999;
+
+  const barEl = document.getElementById("pressure-bar");
+  const numEl = document.getElementById("pressure-num");
+  const modalOverlay = document.getElementById("modal-overlay");
+  const closeBtn = document.getElementById("modal-close-btn");
+
+  function updateBar() {
+    // bar wraps every 10: displays 0-100% based on ones digit only
+    const BAR_CYCLE = 10;
+    const segment = pressure % BAR_CYCLE;
+    barEl.style.width = (segment / BAR_CYCLE * 100) + "%";
+    numEl.textContent = pressure;
+  }
+
+  function spawnFloatText(x, y) {
+    const el = document.createElement("span");
+    el.className = "float-text";
+    el.textContent = "+加压";
+    el.style.left = x - 32 + "px";
+    el.style.top  = y - 16 + "px";
+    document.body.appendChild(el);
+    el.addEventListener("animationend", function () {
+      el.remove();
+    });
+  }
+
+  function showModal() {
+    modalOverlay.classList.remove("hidden");
+    // close button auto-focus for keyboard nav
+    requestAnimationFrame(function () {
+      closeBtn.focus();
+    });
+  }
+
+  function hideModal() {
+    modalOverlay.classList.add("hidden");
+  }
+
+  closeBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    hideModal();
+  });
+
+  // close by clicking backdrop
+  modalOverlay.addEventListener("click", function (e) {
+    if (e.target === modalOverlay) {
+      hideModal();
+    }
+  });
+
+  // close by Escape key (keyboard accessibility)
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !modalOverlay.classList.contains("hidden")) {
+      hideModal();
+    }
+  });
+
+  document.addEventListener("click", function (e) {
+    // block clicks when modal is open
+    if (!modalOverlay.classList.contains("hidden")) return;
+
+    pressure = Math.min(pressure + 1, MAX_PRESSURE);
+    updateBar();
+    spawnFloatText(e.clientX, e.clientY);
+
+    // haptic feedback on mobile (ui-ux-pro-max guideline)
+    if (navigator.vibrate) {
+      navigator.vibrate(8);
+    }
+
+    // trigger at every multiple of 10
+    if (pressure > 0 && pressure % 10 === 0 && pressure !== lastTriggered) {
+      lastTriggered = pressure;
+      var audio = new Audio("output.mp3");
+      audio.play().catch(function () {});
+      showModal();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
