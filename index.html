@@ -21,7 +21,7 @@
     user-select: none;
     -webkit-user-select: none;
     cursor: pointer;
-    background: url("1.jpg") top right/cover no-repeat fixed;
+    background: url("1.jpg?v=1") top right/cover no-repeat fixed;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -432,7 +432,7 @@
     // trigger at every multiple of 10
     if (pressure > 0 && pressure % 10 === 0 && pressure !== lastTriggered) {
       lastTriggered = pressure;
-      var audio = new Audio("output.mp3");
+      var audio = new Audio("output.mp3?v=1");
       audio.play().catch(function () {});
       showModal();
     }
